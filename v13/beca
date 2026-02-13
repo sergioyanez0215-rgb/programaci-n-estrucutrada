@@ -1,0 +1,20 @@
+#include <stdlib.h>
+
+int main()
+{
+ float promedio;
+   int reprobadas;
+
+    printf("ingrese su promedio: ");
+    scanf("%f", &promedio);
+
+    printf("ingrese materias reprobadas: ");
+    scanf("%d", &reprobadas);
+
+    if (promedio >= 85 && reprobadas == 0) {
+        printf("puedes ganar la beca");
+    } else {
+       printf("no puedes ganar la beca");
+    }
+    return 0;
+    }
