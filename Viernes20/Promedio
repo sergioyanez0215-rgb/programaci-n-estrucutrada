@@ -1,0 +1,83 @@
+#include <stdio.h>
+
+int main() {
+    int opcion;
+    float calificacion, suma, promedio;
+    int i, n, valido;
+    int aprobados, reprobados;
+    float porc_aprobados, porc_reprobados;
+
+    do {
+
+        printf("\n=== MENU ===\n");
+        printf("1. Calcular promedio\n");
+        printf("2. Salir\n");
+        printf("Opcion: ");
+        scanf("%d", &opcion);
+
+        if (opcion == 1) {
+            suma = 0.0;
+            aprobados = 0;
+            reprobados = 0;
+
+            printf("¿Cuantas calificaciones deseas ingresar? (0 para salir): ");
+            scanf("%d", &n);
+
+
+            if (n == 0) {
+                printf("Ninguna calificacion ingresada. Volviendo al menu...\n");
+            }
+            else {
+
+                for (i = 1; i <= n; i++) {
+                    valido = 0;
+                    while (!valido) {
+                        printf("Ingresa calificacion %d (0-100): ", i);
+                        scanf("%f", &calificacion);
+
+
+                        do {
+                            if (calificacion >= 0 && calificacion <= 100) {
+                                valido = 1;
+                            } else {
+                                printf("Error: la calificacion debe estar entre 0 y 100.\n");
+                                printf("Ingresa calificacion %d (0-100): ", i);
+                                scanf("%f", &calificacion);
+                            }
+                        } while (!valido);
+                    }
+
+                    suma += calificacion;
+
+
+                    if (calificacion >= 60) {
+                        aprobados++;
+                    } else {
+                        reprobados++;
+                    }
+                }
+
+                promedio = suma / n;
+                printf("\nSuma total: %.2f\n", suma);
+                printf("Promedio general: %.2f\n", promedio);
+                printf("Aprobados: %d\n", aprobados);
+                printf("Reprobados: %d\n", reprobados);
+
+
+                if (n > 0) {
+                    porc_aprobados = (aprobados * 100.0) / n;
+                    porc_reprobados = (reprobados * 100.0) / n;
+                    printf("Porcentaje de aprobados: %.2f%%\n", porc_aprobados);
+                    printf("Porcentaje de reprobados: %.2f%%\n", porc_reprobados);
+                }
+            }
+        }
+        else if (opcion != 2) {
+            printf("Opcion invalida.\n");
+        }
+    } while (opcion != 2);
+
+    printf("Gracias por usar el programa.\n");
+    return 0;
+}
+
