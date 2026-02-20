@@ -1,0 +1,17 @@
+#include <stdio.h>
+
+int main() {
+    int numero;
+
+    do {
+        printf("Ingresa un numero positivo: ");
+        scanf("%d", &numero);
+
+        if (numero <= 0) {
+            printf("Error: debe ser positivo. Intentalo de nuevo.\n");
+        }
+    } while (numero <= 0);
+
+    printf("Numero valido ingresado: %d\n", numero);
+    return 0;
+}
