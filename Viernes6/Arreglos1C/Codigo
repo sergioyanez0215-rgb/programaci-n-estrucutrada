@@ -1,0 +1,4 @@
+printf("direccion de mem de 2 flotantes: &temp1:%i,\n&temp2: %i!\n",temp1,temp2);
+printf("direccion de temp[24]:%i,\n",&temp);
+printf("direccion de temp[5]:%i,\n",&temp);
+    return 0;
