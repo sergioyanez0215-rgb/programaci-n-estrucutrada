@@ -1,4 +1,53 @@
+
 printf("direccion de mem de 2 flotantes: &temp1:%i,\n&temp2: %i!\n",temp1,temp2);
 printf("direccion de temp[24]:%i,\n",&temp);
 printf("direccion de temp[5]:%i,\n",&temp);
     return 0;
+
+
+
+
+////////////////////
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+float temp1, temp2;
+float temp[4];
+int i;
+temp[0]=20.5;
+temp[1]=18.2;
+temp[2]=15.9;
+temp[3]=13.6;
+printf("Temperatura 0: %.1f\n",temp[0] );
+printf("temperatura 1: %.1f\n",temp[1] );
+printf("temperatura 2: %.1f\n",temp[2] );
+printf("temperatura 3: %.1f\n",temp[3] );
+
+  for(i=0;i<4;i++)
+{
+    printf("%d:%.2f\n",i,temp[i]);
+}
+
+}
+//////////////////////
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+int N=4;
+float temp[N];
+for(int i=0; i < N;i++)
+{
+    printf("ingresa la temp%d:",i+1);
+    scanf("%f", &temp(i));
+}
+for (i = 0; i < N; i++)
+{
+    prinf("f",temp(i));
+}
+return 0;
+}
+
