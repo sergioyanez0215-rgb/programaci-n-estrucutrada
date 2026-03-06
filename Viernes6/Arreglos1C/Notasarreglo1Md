@@ -1,0 +1,4 @@
+el tipo de dato que es cada 4 bytes,eso multiplicara por los datos que ocupamos en este caso 4*24
+los datos cuentan del 0 al 23 ya que 0 es el primer dato 
+para inicializar ocupamos poner temp[0] y eso es igual a 20.5
+depues se inicia con temp[1] y eso es igual a 18.2  
