@@ -1,1 +1,158 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
+#define FILAS 5
+#define COLUMNAS 5
+#define TOTAL_BARCOS 3
+#define MAX_TURNOS 5
+
+void inicializarTablero(int tablero[FILAS][COLUMNAS]) {
+    for(int i = 0; i < FILAS; i++)
+        for(int j = 0; j < COLUMNAS; j++)
+            tablero[i][j] = 0;
+}
+
+void colocarBarcos(int tablero[FILAS][COLUMNAS]) {
+    tablero[4][3] = 1;
+    tablero[3][2] = 1;
+    tablero[1][0] = 1;
+}
+
+void mostrarTablero(int tablero[FILAS][COLUMNAS]) {
+    printf("  0 1 2 3 4\n");
+    for(int i = 0; i < FILAS; i++) {
+        printf("%d ", i);
+        for(int j = 0; j < COLUMNAS; j++) {
+            if(tablero[i][j] == 3)      printf("X ");
+            else if(tablero[i][j] == 2) printf("* ");
+            else                        printf("~ ");
+        }
+        printf("\n");
+    }
+}
+
+int jugarTurno(int tablero[FILAS][COLUMNAS], char nombre[], int *barcosEncontrados) {
+    int fila, columna;
+
+    printf("\nTablero de %s:\n", nombre);
+    mostrarTablero(tablero);
+
+    printf("\nIngresa las coordenadas de tu disparo:\n");
+    printf("Fila (0-4): ");
+    scanf("%d", &fila);
+    printf("Columna (0-4): ");
+    scanf("%d", &columna);
+
+    if(fila < 0 || fila > 4 || columna < 0 || columna > 4) {
+        printf("¡Coordenadas fuera del tablero! Pierdes este turno.\n");
+        return 0;
+    }
+
+    if(tablero[fila][columna] == 1) {
+        tablero[fila][columna] = 3;
+        (*barcosEncontrados)++;
+        printf("¡¡IMPACTO!! %s hundio un barco en [%d][%d]\n", nombre, fila, columna);
+        if(*barcosEncontrados == TOTAL_BARCOS) {
+            return 1; // ganó
+        }
+    } else if(tablero[fila][columna] == 3 || tablero[fila][columna] == 2) {
+        printf("Ya disparaste aqui antes. Pierdes este turno.\n");
+    } else {
+        tablero[fila][columna] = 2;
+        printf("Agua... %s fallo en [%d][%d]\n", nombre, fila, columna);
+    }
+    return 0;
+}
+
+void mostrarTableroFinal(int tablero[FILAS][COLUMNAS]) {
+    printf("  0 1 2 3 4\n");
+    for(int i = 0; i < FILAS; i++) {
+        printf("%d ", i);
+        for(int j = 0; j < COLUMNAS; j++) {
+            if(tablero[i][j] == 1)      printf("B ");
+            else if(tablero[i][j] == 3) printf("X ");
+            else if(tablero[i][j] == 2) printf("* ");
+            else                        printf("~ ");
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    // ─── Registro de jugadores ───
+    int numJugadores = 3;
+    char Jugadores[3][50];
+    char etiquetas[][10] = {"Jugador 1", "Jugador 2", "Jugador 3"};
+
+    printf("==============================\n");
+    printf("   BIENVENIDO A BATALLA NAVAL \n");
+    printf("==============================\n\n");
+
+    printf("Ingresa los nombres de los Jugadores:\n");
+    for(int i = 0; i < numJugadores; i++) {
+        printf("%s: ", etiquetas[i]);
+        fgets(Jugadores[i], sizeof(Jugadores[i]), stdin);
+        Jugadores[i][strcspn(Jugadores[i], "\n")] = '\0';
+    }
+
+    printf("\n%-5s %-25s %-10s\n", "No.", "Nombre", "Longitud");
+    printf("----------------------------------------\n");
+    for(int i = 0; i < numJugadores; i++)
+        printf("%-5d %-25s %-10d\n", i + 1, Jugadores[i], (int)strlen(Jugadores[i]));
+
+    // ─── Tableros y puntuaciones ───
+    int tableros[3][FILAS][COLUMNAS];
+    int barcosEncontrados[3] = {0, 0, 0};
+    int gano[3] = {0, 0, 0};
+    int turnoGanado[3] = {0, 0, 0};
+
+    for(int i = 0; i < numJugadores; i++) {
+        inicializarTablero(tableros[i]);
+        colocarBarcos(tableros[i]);
+    }
+
+    // ─── Juego por turnos ───
+    for(int turno = 1; turno <= MAX_TURNOS; turno++) {
+        printf("\n==============================\n");
+        printf("         TURNO %d\n", turno);
+        printf("==============================\n");
+
+        for(int i = 0; i < numJugadores; i++) {
+            if(gano[i]) continue; // si ya ganó, se salta
+
+            printf("\n>>> Turno de %s <<<\n", Jugadores[i]);
+            int resultado = jugarTurno(tableros[i], Jugadores[i], &barcosEncontrados[i]);
+
+            if(resultado) {
+                gano[i] = 1;
+                turnoGanado[i] = turno;
+                printf("\n¡¡%s GANO!! Hundio todos los barcos en el turno %d.\n", Jugadores[i], turno);
+            }
+        }
+    }
+
+    // ─── Resumen final ───
+    printf("\n==============================\n");
+    printf("        RESUMEN FINAL\n");
+    printf("==============================\n");
+    printf("%-5s %-20s %-15s %-10s\n", "No.", "Jugador", "Barcos hundidos", "Resultado");
+    printf("------------------------------------------------------------\n");
+
+    for(int i = 0; i < numJugadores; i++) {
+        printf("%-5d %-20s %-15d %-10s\n",
+            i + 1,
+            Jugadores[i],
+            barcosEncontrados[i],
+            gano[i] ? "¡GANADOR!" : "Perdio");
+    }
+
+    // Mostrar tableros finales
+    printf("\n--- Tableros Finales ---\n");
+    for(int i = 0; i < numJugadores; i++) {
+        printf("\nTablero de %s (B = barco no encontrado):\n", Jugadores[i]);
+        mostrarTableroFinal(tableros[i]);
+    }
+
+    return 0;
+}
