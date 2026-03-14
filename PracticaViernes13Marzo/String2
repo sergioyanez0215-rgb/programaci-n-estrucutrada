@@ -1,0 +1,20 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main()
+{
+    char Alumno1 [16] = "Carlos Cuevas";
+    printf("%s",Alumno1);
+
+    char Alumno2 [16] = "Sergio Guerrero";
+    printf("%s",Alumno2);
+
+    fgets(Alumno1, sizeof(Alumno1),stdin);
+    printf("%s",Alumno1);
+
+    fgets(Alumno2, sizeof(Alumno2),stdin);
+    printf("%s",Alumno2);
+
+    return 0;
+}
