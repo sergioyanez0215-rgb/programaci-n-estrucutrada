@@ -1,0 +1,29 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main()
+{
+    char Jugadores[3][16];
+    char etiquetas[][10] = {"Jugador 1", "Jugador 2", "Jugador 3"};
+
+    printf("Ingresa los nombres de los Jugadores:\n");
+
+    for (int i = 0; i < 3; i++)
+    {
+        printf("%s: ", etiquetas[i]);
+        fgets(Jugadores[i], sizeof(Jugadores[i]), stdin);
+        Jugadores[i][strcspn(Jugadores[i], "\n")] = '\0';
+    }
+
+    printf("\nLista de Jugadores:\n");
+    printf("%-5s %-25s %-10s\n", "No.", "Nombre", "Longitud");
+    printf("----------------------------------------\n");
+
+    for (int i = 0; i < 3; i++)
+    {
+        printf("%-5d %-25s %-10d\n", i + 1, Jugadores[i], (int)strlen(Jugadores[i]));
+    }
+
+    return 0;
+}
