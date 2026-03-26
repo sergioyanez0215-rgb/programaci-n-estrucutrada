@@ -1,0 +1,34 @@
+#include <stdio.h>
+
+int main() {
+    int tablero[3][3];
+
+
+    printf("=== Carga de la matriz 3x3 ===\n");
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            printf("Ingresa valor para tablero[%d][%d]: ", i, j);
+            scanf("%d", &tablero[i][j]);
+        }
+    }
+
+
+    printf("\n=== Matriz ingresada ===\n");
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            printf("%d ", tablero[i][j]);
+        }
+        printf("\n");
+    }
+
+
+    printf("\n=== Representacion en memoria ===\n");
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            printf("tablero[%d][%d] = %d  (direccion: %lu)\n",
+                   i, j, tablero[i][j], (unsigned long)&tablero[i][j]);
+        }
+    }
+
+    return 0;
+}
