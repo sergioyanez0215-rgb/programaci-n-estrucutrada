@@ -1,0 +1,130 @@
+#include <stdio.h>
+
+#define TAM 6
+
+
+void capturar(int v[], int n);
+void mostrar(int v[], int n);
+int  filtrar(int origen[], int destino[], int n);
+void guardarArchivo(int v[], int n);
+
+
+void capturar(int v[], int n) {
+    printf("Ingresa %d numeros enteros:\n", n);
+    for (int i = 0; i < n; i++) {
+        printf("  v[%d] = ", i);
+        scanf("%d", &v[i]);
+    }
+}
+
+void mostrar(int v[], int n) {
+    printf("[");
+    for (int i = 0; i < n; i++) {
+        printf("%d", v[i]);
+        if (i < n - 1) printf(", ");
+    }
+    printf("]\n");
+}
+
+
+int filtrar(int origen[], int destino[], int n) {
+    int k = 0;
+    for (int i = 0; i < n; i++) {
+        if (origen[i] % 2 != 0) {
+            destino[k] = origen[i];
+            k++;
+        }
+    }
+    return k;
+}
+
+int filtrarMultiplosDe3(int origen[], int destino[], int n) {
+    int k = 0;
+    for (int i = 0; i < n; i++) {
+        if (origen[i] % 3 != 0) {
+            destino[k] = origen[i];
+            k++;
+        }
+    }
+    return k;
+}
+
+
+int filtrarMayoresDe10(int origen[], int destino[], int n) {
+    int k = 0;
+    for (int i = 0; i < n; i++) {
+        if (origen[i] <= 10) {
+            destino[k] = origen[i];
+            k++;
+        }
+    }
+    return k;
+}
+
+
+void guardarArchivo(int v[], int n) {
+    FILE *f;
+    f = fopen("resultado.txt", "w");
+
+    if (f == NULL) {
+        printf("Error: no se pudo crear el archivo.\n");
+        return;
+    }
+
+    for (int i = 0; i < n; i++) {
+        fprintf(f, "%d ", v[i]);
+    }
+
+    fclose(f);
+    printf("Resultado guardado en 'resultado.txt'\n");
+}
+
+
+int main() {
+    int original[TAM];
+    int filtrado[TAM];
+    int nuevaTam;
+    int opcion;
+
+
+    capturar(original, TAM);
+
+
+    printf("\nArreglo original: ");
+    mostrar(original, TAM);
+
+
+    printf("\n¿Que filtro deseas aplicar?\n");
+    printf("  1. Eliminar numeros pares\n");
+    printf("  2. Eliminar multiplos de 3\n");
+    printf("  3. Eliminar numeros mayores a 10\n");
+    printf("Opcion: ");
+    scanf("%d", &opcion);
+
+    switch (opcion) {
+        case 1:
+            nuevaTam = filtrar(original, filtrado, TAM);
+            printf("Filtro aplicado: eliminar pares\n");
+            break;
+        case 2:
+            nuevaTam = filtrarMultiplosDe3(original, filtrado, TAM);
+            printf("Filtro aplicado: eliminar multiplos de 3\n");
+            break;
+        case 3:
+            nuevaTam = filtrarMayoresDe10(original, filtrado, TAM);
+            printf("Filtro aplicado: eliminar mayores a 10\n");
+            break;
+        default:
+            printf("Opcion invalida. Se aplicara filtro de pares.\n");
+            nuevaTam = filtrar(original, filtrado, TAM);
+    }
+
+
+    printf("Arreglo filtrado:  ");
+    mostrar(filtrado, nuevaTam);
+
+
+    guardarArchivo(filtrado, nuevaTam);
+
+    return 0;
+}
